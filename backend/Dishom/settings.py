@@ -29,7 +29,7 @@ ALLOWED_HOSTS = [
 # CORS
 # ============================================================
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173', 'https://dishomclasses.com', '13.205.8.207',
+    'http://localhost:5173', 'https://dishomclasses.com',
 ]
 
 # APPS
