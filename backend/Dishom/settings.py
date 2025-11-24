@@ -22,15 +22,14 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-change-me-in-prod")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
-    '127.0.0.1', 'dishomclasses.com'
+    '127.0.0.1', 'dishomclasses.com' '13.205.8.207',
 ]
 
 # ============================================================
 # CORS
 # ============================================================
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'https://dishomclasses.com',
+    'http://localhost:5173', 'https://dishomclasses.com', '13.205.8.207',
 ]
 
 # APPS
