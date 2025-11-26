@@ -33,7 +33,7 @@ ALLOWED_HOSTS = os.getenv(
 # Parse CORS_ALLOWED_ORIGINS from environment variable (comma-separated)
 cors_origins = os.getenv(
     "CORS_ALLOWED_ORIGINS",
-    "http://localhost:5173,https://safalclasses.com,https://www.safalclasses.com"
+    "http://localhost:5173,http://localhost:3000,https://safalclasses.com,https://www.safalclasses.com"
 )
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins.split(",")]
 
@@ -131,33 +131,42 @@ WSGI_APPLICATION = 'Dishom.wsgi.application'
 # DATABASE
 # ============================================================
 # MongoDB Configuration (Default)
+
 # Using djongo for MongoDB with Django ORM support
 
 # Get MongoDB connection details from environment
-MONGO_DB_NAME = os.getenv('MONGO_DB_NAME', 'safalclasses_db')
-MONGO_HOST = os.getenv('MONGO_HOST', 'localhost')
-MONGO_PORT = int(os.getenv('MONGO_PORT', '27017'))
-MONGO_USER = os.getenv('MONGO_USER', '')
-MONGO_PASSWORD = os.getenv('MONGO_PASSWORD', '')
-
-# Build MongoDB connection string
-if MONGO_USER and MONGO_PASSWORD:
-    # With authentication
-    MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
-else:
-    # Without authentication (local development)
-    MONGO_URI = f"mongodb://{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
-
+# SQLite Configuration (Default for Django 5+)
+# Switched from MongoDB due to Djongo incompatibility with Django 5.x
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': MONGO_DB_NAME,
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': MONGO_URI,
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# MongoDB Configuration (Disabled)
+# Djongo is not compatible with Django 5.x. Do not uncomment unless downgrading Django.
+# MONGO_DB_NAME = os.getenv('MONGO_DB_NAME', 'safalclasses_db')
+# MONGO_HOST = os.getenv('MONGO_HOST', 'localhost')
+# MONGO_PORT = int(os.getenv('MONGO_PORT', '27017'))
+# MONGO_USER = os.getenv('MONGO_USER', '')
+# MONGO_PASSWORD = os.getenv('MONGO_PASSWORD', '')
+
+# if MONGO_USER and MONGO_PASSWORD:
+#     MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
+# else:
+#     MONGO_URI = f"mongodb://{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': MONGO_DB_NAME,
+#         'ENFORCE_SCHEMA': False,
+#         'CLIENT': {
+#             'host': MONGO_URI,
+#         }
+#     }
+# }
 
 
 # PASSWORD VALIDATION

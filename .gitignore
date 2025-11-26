@@ -184,3 +184,7 @@ Pipfile.lock
 
 # Poetry
 poetry.lock
+
+
+#unnesessory
+deployment
