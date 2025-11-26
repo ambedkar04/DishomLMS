@@ -37,7 +37,7 @@ A complete Learning Management System (LMS) built with Django REST Framework and
 - **Framework**: Django 5.2.1
 - **API**: Django REST Framework
 - **Authentication**: JWT (Simple JWT)
-- **Database**: SQLite (Production-ready for PostgreSQL)
+- **Database**: MongoDB (with Djongo)
 - **Admin**: Django Jazzmin
 - **Server**: Gunicorn + Nginx
 
@@ -216,8 +216,8 @@ cd /home/deploy/safalclasses
 
 ### Backup Database
 ```bash
-cd /home/deploy/safalclasses/backend
-cp db.sqlite3 backup-$(date +%Y%m%d).db
+# MongoDB backup
+mongodump --db safalclasses_db --out /backup/mongodb/
 ```
 
 ---

@@ -44,7 +44,25 @@ apt install -y \
     certbot \
     python3-certbot-nginx \
     nodejs \
-    npm
+    npm \
+    gnupg
+
+# 2.1. Install MongoDB
+print_status "Installing MongoDB..."
+curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+    gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/7.0 multiverse" | \
+    tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+apt update
+apt install -y mongodb-org
+
+# Start and enable MongoDB
+systemctl start mongod
+systemctl enable mongod
+
+print_status "MongoDB installed and started"
 
 # 3. Create deploy user
 print_status "Creating deploy user..."

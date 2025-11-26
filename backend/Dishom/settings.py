@@ -130,10 +130,32 @@ WSGI_APPLICATION = 'Dishom.wsgi.application'
 
 # DATABASE
 # ============================================================
+# MongoDB Configuration (Default)
+# Using djongo for MongoDB with Django ORM support
+
+# Get MongoDB connection details from environment
+MONGO_DB_NAME = os.getenv('MONGO_DB_NAME', 'safalclasses_db')
+MONGO_HOST = os.getenv('MONGO_HOST', 'localhost')
+MONGO_PORT = int(os.getenv('MONGO_PORT', '27017'))
+MONGO_USER = os.getenv('MONGO_USER', '')
+MONGO_PASSWORD = os.getenv('MONGO_PASSWORD', '')
+
+# Build MongoDB connection string
+if MONGO_USER and MONGO_PASSWORD:
+    # With authentication
+    MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
+else:
+    # Without authentication (local development)
+    MONGO_URI = f"mongodb://{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': MONGO_DB_NAME,
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': MONGO_URI,
+        }
     }
 }
 
