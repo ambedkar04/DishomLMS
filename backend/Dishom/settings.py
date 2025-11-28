@@ -24,7 +24,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 # Parse ALLOWED_HOSTS from environment variable (comma-separated)
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS", 
-    "localhost,127.0.0.1,safalclasses.com,www.safalclasses.com"
+    "127.0.0.1,13.200.248.251,safalclasses.com,www.safalclasses.com"
 ).split(",")
 
 
@@ -130,43 +130,13 @@ WSGI_APPLICATION = 'Dishom.wsgi.application'
 
 # DATABASE
 # ============================================================
-# MongoDB Configuration (Default)
 
-# Using djongo for MongoDB with Django ORM support
-
-# Get MongoDB connection details from environment
-# SQLite Configuration (Default for Django 5+)
-# Switched from MongoDB due to Djongo incompatibility with Django 5.x
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# MongoDB Configuration (Disabled)
-# Djongo is not compatible with Django 5.x. Do not uncomment unless downgrading Django.
-# MONGO_DB_NAME = os.getenv('MONGO_DB_NAME', 'safalclasses_db')
-# MONGO_HOST = os.getenv('MONGO_HOST', 'localhost')
-# MONGO_PORT = int(os.getenv('MONGO_PORT', '27017'))
-# MONGO_USER = os.getenv('MONGO_USER', '')
-# MONGO_PASSWORD = os.getenv('MONGO_PASSWORD', '')
-
-# if MONGO_USER and MONGO_PASSWORD:
-#     MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
-# else:
-#     MONGO_URI = f"mongodb://{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': MONGO_DB_NAME,
-#         'ENFORCE_SCHEMA': False,
-#         'CLIENT': {
-#             'host': MONGO_URI,
-#         }
-#     }
-# }
 
 
 # PASSWORD VALIDATION
