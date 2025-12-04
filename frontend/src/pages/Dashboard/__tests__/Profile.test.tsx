@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -11,7 +10,7 @@ jest.mock('react-router-dom', () => ({
 jest.mock('@/components/Sidebar', () => () => <div />);
 jest.mock('@/components/Menubar', () => () => <div />);
 
-const api = jest.mock('@/lib/api', () => ({
+jest.mock('@/lib/api', () => ({
   fetchCurrentUser: jest.fn(),
   updateUserProfile: jest.fn(),
   resolveMediaUrl: (p: string) => p,

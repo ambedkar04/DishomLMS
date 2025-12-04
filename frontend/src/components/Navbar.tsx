@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import useResponsive from "@/hooks/useResponsive";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import BioCureLogo from "@/assets/BioCure.png";
 import {
@@ -22,8 +21,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [authView, setAuthView] = useState('login'); // 'login', 'register', or 'forgot'
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const isDesktop = useResponsive();
-  const navigate = useNavigate();
+  // Removed unused variables
 
   const navItems = [
     { name: "Home", href: "/" },
