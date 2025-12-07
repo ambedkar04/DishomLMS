@@ -5,9 +5,9 @@ Production Ready Version with Security Best Practices
 
 from pathlib import Path
 import os
+import sys
 from datetime import timedelta
 from typing import Any, Dict, List
-from typing import TYPE_CHECKING, Any
 
 import importlib
 try:
@@ -91,7 +91,6 @@ INSTALLED_APPS = [
 
     'accounts',
     'batch',
-
     'live_class',
     'dashboard',
 ]
@@ -197,7 +196,7 @@ TEMPLATES: List[Dict[str, Any]] = [
 # settings.py
 
 # Postgres Database Configuration
-DATABASES = {
+DATABASES: Dict[str, Dict[str, Any]] = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DB_NAME'),
@@ -205,6 +204,10 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASS'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
+        'CONN_MAX_AGE': int(os.getenv('DB_CONN_MAX_AGE', '300')),
+        'OPTIONS': {
+            'sslmode': 'require'
+        }
     }
 }
 
@@ -296,26 +299,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SECURITY SETTINGS (PRODUCTION)
 # ============================================================
+_RUNSERVER = 'runserver' in sys.argv
+_STRICT_PROD = (not DEBUG) and (not _RUNSERVER)
+
+SECURE_SSL_REDIRECT = _STRICT_PROD
+SESSION_COOKIE_SECURE = _STRICT_PROD
+CSRF_COOKIE_SECURE = _STRICT_PROD
+SECURE_HSTS_SECONDS = 31536000 if _STRICT_PROD else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = _STRICT_PROD
+SECURE_HSTS_PRELOAD = _STRICT_PROD
+
 if not DEBUG:
-    # HTTPS/SSL
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    
-    # HSTS (HTTP Strict Transport Security)
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    
-    # Security Headers
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
-    
-    # Additional Security Headers
     SECURE_REFERRER_POLICY = 'same-origin'
-    
-    # Proxy Headers (for Nginx)
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     USE_X_FORWARDED_HOST = True
     USE_X_FORWARDED_PORT = True

@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/accounts/', include('accounts.urls')),
     path('api/batch/', include('batch.urls')),
     path('api/dashboard/', include('dashboard.urls')),
+    path('', api_info, name='api_root'),
 
     path("__reload__/", include("django_browser_reload.urls")),
     
